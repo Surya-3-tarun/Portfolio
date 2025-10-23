@@ -6,14 +6,23 @@ import { validateEmail, validateLength, getErrorMessage } from "@/lib/utils";
 import { render } from "@react-email/components";
 import { createTransport, TransportOptions } from "nodemailer";
 
-const transport = createTransport({
-  host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT),
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-} as TransportOptions);
+function validateSmtpEnv(): { ok: true } | { ok: false; missing: string[] } {
+  const required = [
+    "SMTP_HOST",
+    "SMTP_PORT",
+    "SMTP_USER",
+    "SMTP_PASS",
+    "SENDER_EMAIL",
+    "CONTACT_EMAIL",
+  ];
+
+  const missing = required.filter((k) => !process.env[k]);
+  if (missing.length) {
+    return { ok: false, missing };
+  }
+
+  return { ok: true };
+}
 
 export const sendEmail = async ({
   message,
@@ -21,6 +30,21 @@ export const sendEmail = async ({
   senderName,
   ip = "",
 }: ContactFormInputs) => {
+  // Ensure SMTP environment is configured
+  const smtpCheck = validateSmtpEnv();
+  if (!smtpCheck.ok) {
+    return { error: `Missing SMTP env vars: ${smtpCheck.missing.join(", ")}` };
+  }
+
+  const transport = createTransport({
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT),
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
+  } as TransportOptions);
+
   // Server-side validation
   if (validateEmail(senderEmail).error) {
     return { error: "Invalid sender email" };
