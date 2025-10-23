@@ -1,6 +1,4 @@
 import cashremitImg from "@/public/cashremit.png";
-import tjdistributorsImg from "@/public/tjdistributors.png";
-
 import { CgWorkAlt } from "react-icons/cg";
 import { FaAws, FaReact, FaRaspberryPi } from "react-icons/fa";
 import {
@@ -61,10 +59,18 @@ type Project = {
 
 export const experiencesData = [
   {
+    title: "Backend Developer Intern",
+    location: "HealthXchange International Inc.",
+    description:
+      "Optimized large-scale Django APIs using ORM techniques (select_related, prefetch_related), reducing average latency by 53%. Designed a distributed PDF generation service with WeasyPrint, Celery, and Google Cloud Storage. Improved scalability with Redis caching and asynchronous task queues, doubling throughput across microservices under high load.",
+    icon: React.createElement(CgWorkAlt),
+    date: "Aug 2025 - Present",
+  },
+  {
     title: "Software Developer Intern",
     location: "Elemica, India",
     description:
-      "Built scalable full-stack solutions using React.js, Django, and MongoDB, enhancing efficiency by 15%. Developed RESTful APIs and improved CI/CD pipeline integration.",
+      "Engineered full-stack modules using React.js, Django REST Framework, and MongoDB, improving system performance by 30%. Delivered reliable RESTful APIs handling 500+ daily transactions with authentication, validation, and CI/CD pipelines in Linux environments. Partnered with cross-functional teams to deploy scalable, secure releases, improving uptime and client satisfaction by 20%.",
     icon: React.createElement(CgWorkAlt),
     date: "Aug 2023 - July 2024",
   },
